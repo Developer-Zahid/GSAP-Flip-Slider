@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSAP Flip Slider</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .btn{
+            top: 50%;
+            position: absolute;
+            z-index: 9;
+            cursor: pointer;
+        }
+        .btn--left{
+            left: 20%;
+        }
+        .btn--right{
+            right: 20%;
+        }
+        .slider{
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .slide{
+            position: absolute;
+            margin: 0;
+        }
+        .slide:nth-of-type(1){
+            top: 0;
+            left: 0;
+        }
+        .slide:nth-of-type(2){
+            top: 0;
+            right: 0;
+        }
+        .slide:nth-of-type(5){
+            bottom: 0;
+            left: 0;
+        }
+        .slide:nth-of-type(3){
+            bottom: 0;
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slider">
+        <figure class="slide">
+            <img src="./assets/images/image-1.png" alt="image 1" class="slide__image" />
+        </figure>
+        <figure class="slide">
+            <img src="./assets/images/image-2.jpg" alt="image 2" class="slide__image" />
+        </figure>
+        <figure class="slide">
+            <img src="./assets/images/image-3.jpg" alt="image 3" class="slide__image" />
+        </figure>
+        <figure class="slide">
+            <img src="./assets/images/image-4.png" alt="image 4" class="slide__image" />
+        </figure>
+        <figure class="slide">
+            <img src="./assets/images/image-5.jpg" alt="image 5" class="slide__image" />
+        </figure>
+    </div>
+    <button type="button" class="btn btn--left">Left</button>
+    <button type="button" class="btn btn--right">Right</button>
+    
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Flip.min.js"></script>
+
+    <script defer>
+        gsap.registerPlugin(Flip);
+        const slider = document.querySelector('.slider')
+        const btnLeft =  document.querySelector('.btn--left')
+        const btnRight =  document.querySelector('.btn--right')
+        
+        btnLeft.addEventListener('click', function(){
+            const slides =  gsap.utils.toArray('.slide')
+            const state = Flip.getState(slides)
+            slider.prepend(slides[slides.length - 1])
+            Flip.from(state, {
+                scale: true,
+                duration: 1,
+                // ease: "power1.inOut",
+                ease: "circ.inOut",
+                absolute: true,
+                // stagger: 0.05,
+            })
+        })
+        btnRight.addEventListener('click', function(){
+            const slides =  gsap.utils.toArray('.slide')
+            const state = Flip.getState(slides)
+            slider.appendChild(slides[0])
+            Flip.from(state, {
+                scale: true,
+                duration: 1,
+                // ease: "power1.inOut",
+                ease: "circ.inOut",
+                absolute: true,
+                // stagger: 0.05,
+            })
+        })
+    </script>
+    
+</body>
+</html>
